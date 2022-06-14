@@ -10,15 +10,17 @@ class Solution:
             if (index1 == N1) and (index2 == N2):
                 return 0
             
+            if index1 == N1:
+                return backtrack(index1, index2+1) + 1
+            
+            if index2 == N2:
+                return backtrack(index1+1, index2) + 1
+            
             ans = inf
-            if index1 < N1 and index2 < N2 and word1[index1] == word2[index2]:
+            if word1[index1] == word2[index2]:
                 ans = backtrack(index1+1, index2+1)
-                
-            if index1 < N1:
-                ans = min(ans, backtrack(index1+1, index2) + 1)
-                
-            if index2 < N2:
-                ans = min(ans, backtrack(index1, index2+1) + 1)
+            ans = min(ans, backtrack(index1+1, index2) + 1)
+            ans = min(ans, backtrack(index1, index2+1) + 1)
             
             return ans
             
