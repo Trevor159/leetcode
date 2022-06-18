@@ -1,54 +1,31 @@
 class Solution:
     def removeStones(self, stones: List[List[int]]) -> int:
         
-        colMap = defaultdict(set)
-        rowMap = defaultdict(set)
+        UF = {}
         
-        N = len(stones)
-        for i in range(N):
-            x, y = stones[i]
-            colMap[y].add(i)
-            rowMap[x].add(i)
-            
-            
-        graph = defaultdict(list)
+        def find(x):
+            if x == UF[x]:
+                return x
+            return find(UF[x])
         
-        for i in range(N):
-            x, y = stones[i]
+        def union(x, y):
+            UF.setdefault(x, x)
+            UF.setdefault(y, y)
             
-            for node in colMap[y]:
-                if node == i:
-                    continue
-                    
-                graph[i].append(node)
-                
-            for node in rowMap[x]:
-                if node == i:
-                    continue
-                    
-                graph[i].append(node)
-                
-        
+            UF[find(x)] = find(y)
+            
         seen = set()
-        ans = N
-        
-        def seeConnected(node):
-            if node in seen:
-                return 
-            
-            seen.add(node)
-            
-            for neighbor in graph[node]:
-                seeConnected(neighbor)
+        N = len(stones)
         
         for i in range(N):
-            if i in seen:
-                continue
+            x, y = stones[i]
+            union(x, ~y)
             
-            ans -= 1
-            seeConnected(i)
-                
-        return ans
+        for i in range(N):
+            x, y = stones[i]
+            seen.add(find(x))
+            
+        return N-len(seen)
                 
                 
                 
