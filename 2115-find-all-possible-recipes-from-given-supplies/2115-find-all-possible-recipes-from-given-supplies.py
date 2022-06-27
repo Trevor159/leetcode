@@ -7,20 +7,6 @@ class Solution:
         ans = []
         N = len(recipes)
         
-        def addSupply(supply):
-            suppliesSet.add(supply)
-            
-            for recipe in required[supply]:
-                hasIngredients = True
-                for ingredient in ingredients[recipeMap[recipe]]:
-                    
-                    if ingredient not in suppliesSet:
-                        hasIngredients = False
-                        break
-
-                if hasIngredients:
-                    ans.append(recipe)
-                    addSupply(recipe)
                     
         for i in range(N):
             recipeMap[recipes[i]] = i
@@ -41,7 +27,27 @@ class Solution:
                     
             if hasIngredients:
                 ans.append(recipe)
-                addSupply(recipe)
+                
+        
+        index = 0
+        
+        while index < len(ans):
+            supply = ans[index]
+            suppliesSet.add(supply)
+            
+            for recipe in required[supply]:
+                hasIngredients = True
+                for ingredient in ingredients[recipeMap[recipe]]:
+                    
+                    if ingredient not in suppliesSet:
+                        hasIngredients = False
+                        break
+
+                if hasIngredients:
+                    ans.append(recipe)
+                    
+            index += 1
+        
                 
         return ans
                 
