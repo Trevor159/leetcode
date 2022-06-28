@@ -25,12 +25,6 @@ class Solution:
                 ans += amount
                 prev -= 1
                 amount -= 1
-            
-            
-        while amount and prev and prev-1 > num:
-            ans += amount
-            amount -= 1
-            prev -= 1
                 
                 
         return ans
